@@ -1,9 +1,28 @@
 require 'sinatra'
+require 'sinatra-websocket'
+
 class Remapper < Sinatra::Base
+  set :server, 'thin'
+  set :sockets, []
+
   get '/' do
-    sz = -> { rand(1..8) }
-    sr = -> { rand(1..22) }
-    "Shitty test message: #{sz.call}_#{sr.call}"
+    if !request.websocket?
+      erb :index
+    else
+      request.websocket do |ws|
+        ws.onopen do
+          ws.send("All will be one")
+          settings.sockets << ws
+        end
+        ws.onmessage do |msg|
+          EM.next_tick { settings.sockets.each{|s| s.send(msg) } }
+        end
+        ws.onclose do
+          warn("websocket closed")
+          settings.sockets.delete(ws)
+        end
+      end
+    end
   end
 
   get '/glyphs_list' do
