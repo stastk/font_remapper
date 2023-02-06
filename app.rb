@@ -35,6 +35,10 @@ class Remapper < Sinatra::Base
     # TODO Glyphs from ELAJC and from PHYREXIAN must be placed in to DB
   end
 
+  get '/remap_do' do
+    self.remap(params[:t])
+  end
+
   def remap(t)
     remapped = ""
     arr_phie = ARR_PHIE
