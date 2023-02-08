@@ -56,3 +56,6 @@ build-iPhoneSimulator/
 # .rubocop-https?--*
 
 .idea/
+
+#legal reasons
+Phyrexian-Regular.ttf

@@ -7,8 +7,13 @@ ARR_WOTC_GSUB_FROM_START = %w(¿ “ ‽ ⸘ ? ! " ^ «)
 ARR_WOTC_GSUB_FROM_END = %w(: - “ « . ^)
 
 class Remapper < Sinatra::Base
+
   set :server, 'thin'
   set :sockets, []
+
+  before /.*\.css/ do
+    content_type 'text/css'
+  end
 
   get '/' do
     if !request.websocket?
@@ -33,6 +38,12 @@ class Remapper < Sinatra::Base
 
   get '/glyphs_list' do
     # TODO Glyphs from ELAJC and from PHYREXIAN must be placed in to DB
+  end
+
+  get '/page' do
+    letters = `python3 -c 'import freetype, sys; stdout = open(1, mode="w", encoding="utf8"); face = freetype.Face(sys.argv[1]); stdout.write("".join(sorted([chr(c) for c, g in face.get_chars() if c]) + [""]))' Phyrexian-Regular.ttf`
+    @result = letters.gsub(/[           ​‌‍‎‏­]/, "").split("")
+    erb :page
   end
 
   get '/remap_do' do
@@ -61,4 +72,3 @@ class Remapper < Sinatra::Base
     #erb :remapper
   end
 end
-

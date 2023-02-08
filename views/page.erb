@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css"/>
+  </head>
+  <body class="app">
+    <nav>
+      <a id="logo">
+        123
+      </a>
+    </nav>
+    <header>
+      <h1>Phyrexian font remapper</h1>
+      <span>
+        Phyrexian font <a href="#" target="_blank">download ></a>
+      </span>
+    </header>
+    <div class="intro_picture">
+      <img src="#">
+    </div>
+    <section id="remapper_itself">
+      <div id="rm_one">
+        <span class="title"></span>
+        <textarea></textarea>
+        <p class="transcription"></p>
+      </div>
+      <div id="rm_to">
+        <button>123</button>
+      </div>
+      <div id="rm_another">
+        <span class="title"></span>
+        <textarea></textarea>
+        <p class="transcription"></p>
+      </div>
+    </section>
+    <section id="remapper_map">
+      <% @result.each do |char| %>
+        <div class="char">
+          <span style="font-family: Phyrexian">
+            <%= char %>
+          </span>
+          <i>
+            <%= char.empty? ? "space" : char %>
+          </i>
+        </div>
+      <% end %>
+    </section>
+  </body>
+</html>
