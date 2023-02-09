@@ -5,3 +5,4 @@ gem 'thin'
 gem 'sinatra-websocket'
 
 gem 'sass'
+gem 'json'

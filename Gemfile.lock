@@ -9,6 +9,7 @@ GEM
       eventmachine (>= 0.12.9)
     eventmachine (1.2.7)
     ffi (1.15.5)
+    json (2.6.3)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     public_suffix (5.0.1)
@@ -43,6 +44,7 @@ PLATFORMS
   x86_64-darwin-20
 
 DEPENDENCIES
+  json
   sass
   sinatra
   sinatra-websocket

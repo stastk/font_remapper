@@ -41,6 +41,10 @@
 }
 
 #rm_maps{
+  .cols{
+    display: flex;
+    flex-direction: row;
+  }
   .rm_map{
     display: flex;
     flex-wrap: wrap;

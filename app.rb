@@ -63,13 +63,26 @@ class Remapper < Sinatra::Base
 
   end
 
-  def remap(t)
+  def string_to_hash(string)
+    require 'json'
+    JSON.parse string
+  end
 
+  def remap(t)
+    result = self.string_to_hash(t)
     remapped = ""
 
-    t.chars.each do |char|
-      i = ARR_PHIE.find_index(char)
-      remapped += i.nil? ? char : ARR_WOTC[i]
+    if result["direction"] == "normal to gibberish"
+      arr_from = ARR_WOTC
+      arr_to = ARR_PHIE
+    else
+      arr_from = ARR_PHIE
+      arr_to = ARR_WOTC
+    end
+
+    result["text"].chars.each do |char|
+      i = arr_from.find_index(char)
+      remapped += i.nil? ? char : arr_to[i]
     end
 
     space_gsubber = ->(x){x == "^" ? "\\^" : x}

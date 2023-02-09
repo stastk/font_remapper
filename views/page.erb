@@ -2,6 +2,7 @@
   <head>
     <script type="text/javascript" src="/js/jquery-3.6.3.min.js"></script>
     <script type="text/javascript" src="/js/remapper.js"></script>
+    <script type="text/javascript" src="/js/copy_char.js"></script>
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css"/>
   </head>
   <body class="app">
@@ -35,31 +36,28 @@
       </div>
     </section>
     <section id="rm_maps">
-      <div class="rm_map rm_gibberish_map">
-        <% @gibberish_result.each do |char| %>
-          <div class="char">
-            <span>
-              <%= char %>
-            </span>
-            <i>
-              <%= char.empty? ? "space" : char %>
-            </i>
-          </div>
-        <% end %>
+      <div id="click_to">
+        <input name="click_to" type="radio" value="copy" checked>
+        <input name="click_to" type="radio" value="typing">
       </div>
-      <div class="rm_map rm_normal_map">
-        <% @normal_result.each do |char| %>
-          <div class="char">
-            <span>
-              <%= char %>
-            </span>
-            <i>
-              <%= char.empty? ? "space" : char %>
-            </i>
-          </div>
-        <% end %>
+      <div class="cols">
+        <div class="rm_map rm_gibberish_map">
+          <% @gibberish_result.each do |char| %>
+            <div class="char" data-char="<%= char %>">
+              <span><%= char %></span>
+              <i><%= char.empty? ? "space" : char %></i>
+            </div>
+          <% end %>
+        </div>
+        <div class="rm_map rm_normal_map">
+          <% @normal_result.each do |char| %>
+            <div class="char" data-char="<%= char %>">
+              <span><%= char %></span>
+              <i><%= char.empty? ? "space" : char %></i>
+            </div>
+          <% end %>
+        </div>
       </div>
-
     </section>
 
   </body>

@@ -14,13 +14,37 @@ $(document).ready(function() {
             output_transcription.html(m.data);
         };
 
-        input.keyup(function(event) {
-            console.log(input_transcription)
-            input_transcription.html(input.val());
-            ws.send(input.val());
-            return false;
+        input.bind('input propertychange', function() {
+            //input.keyup(function(event) {
+                console.log(input_transcription)
+                transcript_it();
+                return false;
+            //});
         });
 
-    })();
-});
+        $('.char').on("click", function(){
+            value = $(this).data('char');
+            $("#rm_one textarea").append(value);
+            transcript_it();
+            //return false;
+        })
 
+        $('.char1').on("click", function(){
+            value = $(this).data('char');
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val(value).select();
+            document.execCommand("copy");
+            $temp.remove();
+        })
+        var direction = ""
+
+        function transcript_it(){
+            input_transcription.html(input.val());
+            ws.send(`{"direction": "`+ direction +`", "text": "`+ input.val() + `" }`);
+            return false;
+        }
+
+    })();
+
+});
