@@ -60,4 +60,4 @@ build-iPhoneSimulator/
 .DS_store
 
 #legal reasons
-Phyrexian-Regular.ttf
+public/fonts/Phyrexian-Regular.ttf

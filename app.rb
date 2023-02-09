@@ -37,8 +37,13 @@ class Remapper < Sinatra::Base
   end
 
   get '/page' do
-    letters = `python3 -c 'import freetype, sys; stdout = open(1, mode="w", encoding="utf8"); face = freetype.Face(sys.argv[1]); stdout.write("".join(sorted([chr(c) for c, g in face.get_chars() if c]) + [""]))' Phyrexian-Regular.ttf`
-    @result = letters.gsub(/[           ​‌‍‎‏­]/, "").split("")
+
+    gibberish_letters = `python3 -c 'import freetype, sys; stdout = open(1, mode="w", encoding="utf8"); face = freetype.Face(sys.argv[1]); stdout.write("".join(sorted([chr(c) for c, g in face.get_chars() if c]) + [""]))' ./public/fonts/Phi_horizontal_gbrsh_2.1.ttf`
+    normal_letters = `python3 -c 'import freetype, sys; stdout = open(1, mode="w", encoding="utf8"); face = freetype.Face(sys.argv[1]); stdout.write("".join(sorted([chr(c) for c, g in face.get_chars() if c]) + [""]))' ./public/fonts/Phyrexian-Regular.ttf`
+
+    @gibberish_result = gibberish_letters.gsub(/[           ​‌‍‎‏­]/, "").split("")
+    @normal_result = normal_letters.gsub(/[           ​‌‍‎‏­]/, "").split("")
+
     if !request.websocket?
       erb :page
     else

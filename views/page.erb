@@ -20,31 +20,46 @@
       <img src="#">
     </div>
     <section id="remapper_itself">
-      <div id="rm_one">
+      <div id="rm_one" class="rm_field rm_gibberish">
         <span class="title"></span>
         <textarea></textarea>
         <p class="transcription"></p>
       </div>
-      <div id="rm_to">
+      <div id="rm_to" class="rm_switch">
         <button>123</button>
       </div>
-      <div id="rm_another">
+      <div id="rm_another" class="rm_field rm_normal">
         <span class="title"></span>
         <textarea></textarea>
         <p class="transcription"></p>
       </div>
     </section>
-    <section id="remapper_map">
-      <% @result.each do |char| %>
-        <div class="char">
-          <span style="font-family: Phyrexian">
-            <%= char %>
-          </span>
-          <i>
-            <%= char.empty? ? "space" : char %>
-          </i>
-        </div>
-      <% end %>
+    <section id="rm_maps">
+      <div class="rm_map rm_gibberish_map">
+        <% @gibberish_result.each do |char| %>
+          <div class="char">
+            <span>
+              <%= char %>
+            </span>
+            <i>
+              <%= char.empty? ? "space" : char %>
+            </i>
+          </div>
+        <% end %>
+      </div>
+      <div class="rm_map rm_normal_map">
+        <% @normal_result.each do |char| %>
+          <div class="char">
+            <span>
+              <%= char %>
+            </span>
+            <i>
+              <%= char.empty? ? "space" : char %>
+            </i>
+          </div>
+        <% end %>
+      </div>
+
     </section>
 
   </body>

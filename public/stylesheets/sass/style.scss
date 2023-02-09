@@ -1,0 +1,84 @@
+@font-face {
+  font-family: "Phyrexian";
+  src: local("Phyrexian"), url("/fonts/Phyrexian-Regular.ttf");
+  font-weight: bold;
+}
+@font-face {
+  font-family: "Phi_horizontal_gbrsh_2.1";
+  src: local("Phi_horizontal_gbrsh_2.1"), url("/fonts/Phi_horizontal_gbrsh_2.1.ttf");
+  font-weight: bold;
+}
+
+#remapper_itself{
+  display: flex;
+  flex-direction: row;
+  .rm_field{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    textarea{
+      width: 100%;
+      min-height: 200px;
+    }
+  }
+  .rm_switch{
+    display: flex;
+    max-width: 100px;
+  }
+  .transcription{
+    font-size: 24px;
+  }
+  .rm_gibberish{
+    .transcription{
+      font-family: "Phi_horizontal_gbrsh_2.1";
+    }
+  }
+  .rm_normal{
+    .transcription{
+      font-family: "Phyrexian";
+    }
+  }
+}
+
+#rm_maps{
+  .rm_map{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    .char{
+      display: flex;
+      flex-direction: column;
+      border: 1px solid;
+      width: 38px;
+      height: 60px;
+      margin: 0 3px 3px 0;
+      border-radius: 4px;
+      span{
+        font-size: 24px;
+        height: 50%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      i{
+        font-size: 16px;
+        height: 50%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    &.rm_normal_map{
+      span{
+        font-family: "Phyrexian";
+      }
+    }
+    &.rm_gibberish_map{
+      span{
+        font-family: "Phi_horizontal_gbrsh_2.1";
+      }
+    }
+  }
+}
