@@ -63,20 +63,17 @@ class Remapper < Sinatra::Base
 
   end
 
-  get '/remap_do' do
-    self.remap(params[:t])
-  end
-
   def remap(t)
+
     remapped = ""
-    arr_phie = ARR_PHIE
-    arr_wotc = ARR_WOTC
 
     t.chars.each do |char|
-      i = arr_phie.find_index(char)
-      remapped += i.nil? ? char : arr_wotc[i]
+      i = ARR_PHIE.find_index(char)
+      remapped += i.nil? ? char : ARR_WOTC[i]
     end
+
     space_gsubber = ->(x){x == "^" ? "\\^" : x}
+
     ARR_WOTC_GSUB_FROM_END.each do |gg|
       remapped.gsub!(/[#{space_gsubber.call(gg)}](\s|[,])/, "#{gg} ")
     end

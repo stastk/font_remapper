@@ -1,39 +1,5 @@
 <html>
 <body>
-<style>
-  .phy{
-      font-family: Phyrexian;
-  }
-</style>
-<h1>Supa-dupa Stas chat</h1>
-<form id="form">
-  <input type="text" id="input" placeholder="Send some message"></input>
-</form>
-<div id="msgs"></div>
+NOTHING :(
 </body>
-
-<script type="text/javascript">
-    window.onload = function(){
-        (function(){
-            var show = function(el){
-                return function(msg){ el.innerHTML = msg + '<br />' + el.innerHTML; }
-            }(document.getElementById('msgs'));
-
-            var ws       = new WebSocket('ws://' + window.location.host + window.location.pathname);
-            ws.onopen    = function()  { show('Websocket opened'); };
-            ws.onclose   = function()  { show('Websocket closed'); }
-            ws.onmessage = function(m) { show("<span class='phy'>" + m.data + "</span>"); };
-
-            var sender = function(f){
-                var input     = document.getElementById('input');
-                input.onclick = function(){ input.value = "" };
-                f.onsubmit    = function(){
-                    ws.send(input.value);
-                    input.placeholder = "Send some message";
-                    return false;
-                }
-            }(document.getElementById('form'));
-        })();
-    }
-</script>
 </html>
