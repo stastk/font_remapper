@@ -36,14 +36,26 @@ class Remapper < Sinatra::Base
     end
   end
 
-  get '/glyphs_list' do
-    # TODO Glyphs from ELAJC and from PHYREXIAN must be placed in to DB
-  end
-
   get '/page' do
     letters = `python3 -c 'import freetype, sys; stdout = open(1, mode="w", encoding="utf8"); face = freetype.Face(sys.argv[1]); stdout.write("".join(sorted([chr(c) for c, g in face.get_chars() if c]) + [""]))' Phyrexian-Regular.ttf`
     @result = letters.gsub(/[           ​‌‍‎‏­]/, "").split("")
-    erb :page
+    if !request.websocket?
+      erb :page
+    else
+      request.websocket do |ws|
+        ws.onopen do
+          settings.sockets << ws
+        end
+        ws.onmessage do |msg|
+          EM.next_tick { settings.sockets.each{|s| s.send(self.remap(msg)) } }
+        end
+        ws.onclose do
+          warn("websocket closed")
+          settings.sockets.delete(ws)
+        end
+      end
+    end
+
   end
 
   get '/remap_do' do
@@ -68,7 +80,6 @@ class Remapper < Sinatra::Base
       remapped.gsub!(/(\s|[,])[#{space_gsubber.call(gg)}]/, " #{gg}")
     end
 
-    "#{remapped.to_s}<br><span style='font-family:\"Phi_horizontal_gbrsh_2.1\"'>#{t.to_s}</span>"
-    #erb :remapper
+    "#{remapped.to_s}"
   end
 end
