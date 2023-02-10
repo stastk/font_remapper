@@ -16,7 +16,6 @@ $(document).ready(function() {
         ws.onmessage = function(m) {
             console.log(m.data);
             answer = JSON.parse(m.data);
-
             $("#rm_" + answer[0] + " textarea").val(answer[1]);
             $("#rm_" + answer[0] + " .transcription").val(answer[1]);
         };
@@ -26,24 +25,25 @@ $(document).ready(function() {
             transcript_it($(this).data("gibberish-or-normal"));
             return false;
         });
-//-----------------------------
-        $(".rm_" + answer[0] + "_map").find('.char').on("click", function() {
-            value = $(this).find('span').text();
-            console.log("VALUE: " + value);
-            rm_gibberish.val(rm_gibberish.val() + value);
-            console.log("TEXTAREA: " + rm_gibberish.val());
-            transcript_it();
+
+        $('.char').on("click", function() {
+            let direction = $(this).parent('div[data-gibberish_or_normal]').data("gibberish-or-normal")
+            let value = $(this).find('span').text();
+            console.log("VALUE: " + value + "; direction: " + direction + ";");
+            let textarea = $("#rm_" + direction + " textarea")
+            $(".rm_" + direction + "_map").val(textarea.val() + value);
+            console.log("TEXTAREA: " + textarea.val());
+            transcript_it(direction);
         });
 
         $('.char1').on("click", function(){
             value = $(this).find('span').text();
-            var $temp = $("<input>");
+            let $temp = $("<input>");
             $("body").append($temp);
             $temp.val(value).select();
             document.execCommand("copy");
             $temp.remove();
         })
-        var direction = ""
 
         function transcript_it(gibberish_or_normal){
             console.log("gibberish_or_normal " + gibberish_or_normal);

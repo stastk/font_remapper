@@ -73,11 +73,11 @@ class Remapper < Sinatra::Base
     if result["direction"].to_s == "normal"
       arr_from = ARR_WOTC
       arr_to = ARR_PHIE
-      direction = "normal"
+      direction = "gibberish"
     else
       arr_from = ARR_PHIE
       arr_to = ARR_WOTC
-      direction = "gibberish"
+      direction = "normal"
     end
 
     result["text"].chars.each do |char|
