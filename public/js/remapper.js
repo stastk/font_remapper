@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     (function(){
         var input                = $("#rm_one textarea");
         var input_transcription  = $("#rm_one .transcription");
@@ -16,21 +17,23 @@ $(document).ready(function() {
 
         input.bind('input propertychange', function() {
             //input.keyup(function(event) {
-                console.log(input_transcription)
-                transcript_it();
-                return false;
+            console.log(input_transcription)
+            transcript_it();
+            return false;
             //});
         });
 
-        $('.char').on("click", function(){
-            value = $(this).data('char');
-            $("#rm_one textarea").append(value);
+        $('.char').on("click", function() {
+            value = $(this).find('span').text();
+            console.log("VALUE: " + value);
+            input.val(input.val() + value);
+            console.log("TEXTAREA: " + input.val());
             transcript_it();
             //return false;
-        })
+        });
 
         $('.char1').on("click", function(){
-            value = $(this).data('char');
+            value = $(this).find('span').text();
             var $temp = $("<input>");
             $("body").append($temp);
             $temp.val(value).select();
@@ -41,7 +44,9 @@ $(document).ready(function() {
 
         function transcript_it(){
             input_transcription.html(input.val());
-            ws.send(`{"direction": "`+ direction +`", "text": "`+ input.val() + `" }`);
+            value_to_send = input.val().replace(/["]/g,'\\"')
+            ws.send(`{"direction": "`+ direction +`", "text": "`+ value_to_send + `" }`);
+            console.log("transcript: " + `{"direction": "`+ direction +`", "text": "`+ value_to_send + `" }`);
             return false;
         }
 
