@@ -1,35 +1,38 @@
 $(document).ready(function() {
 
     (function(){
-        var input                = $("#rm_one textarea");
-        var input_transcription  = $("#rm_one .transcription");
-        var output               = $("#rm_another textarea");
-        var output_transcription = $("#rm_another .transcription");
+        var content                  = $("textarea");
+        var rm_gibberish                   = $("#rm_gibberish textarea");
+        var rm_gibberish_transcription     = $("#rm_gibberish .transcription");
+        var rm_gibberish_map               = $(".rm_gibberish_map")
+
+        var rm_normal               = $("#rm_normal textarea");
+        var rm_normal_transcription = $("#rm_normal .transcription");
+        var rm_normal_map           = $(".rm_normal_map")
 
         var ws       = new WebSocket('ws://' + window.location.host + window.location.pathname);
         ws.onopen    = function()  { console.log("Socket open") };
         ws.onclose   = function()  { console.log("Socket closed") }
         ws.onmessage = function(m) {
             console.log(m.data);
-            output.val(m.data);
-            output_transcription.html(m.data);
+            answer = JSON.parse(m.data);
+
+            $("#rm_" + answer[0] + " textarea").val(answer[1]);
+            $("#rm_" + answer[0] + " .transcription").val(answer[1]);
         };
 
-        input.bind('input propertychange', function() {
-            //input.keyup(function(event) {
-            console.log(input_transcription)
-            transcript_it();
+        content.bind('input propertychange', function() {
+            console.log("FIRE")
+            transcript_it($(this).data("gibberish-or-normal"));
             return false;
-            //});
         });
-
-        $('.char').on("click", function() {
+//-----------------------------
+        $(".rm_" + answer[0] + "_map").find('.char').on("click", function() {
             value = $(this).find('span').text();
             console.log("VALUE: " + value);
-            input.val(input.val() + value);
-            console.log("TEXTAREA: " + input.val());
+            rm_gibberish.val(rm_gibberish.val() + value);
+            console.log("TEXTAREA: " + rm_gibberish.val());
             transcript_it();
-            //return false;
         });
 
         $('.char1').on("click", function(){
@@ -42,11 +45,12 @@ $(document).ready(function() {
         })
         var direction = ""
 
-        function transcript_it(){
-            input_transcription.html(input.val());
-            value_to_send = input.val().replace(/["]/g,'\\"')
-            ws.send(`{"direction": "`+ direction +`", "text": "`+ value_to_send + `" }`);
-            console.log("transcript: " + `{"direction": "`+ direction +`", "text": "`+ value_to_send + `" }`);
+        function transcript_it(gibberish_or_normal){
+            console.log("gibberish_or_normal " + gibberish_or_normal);
+            $(".transcription[data-gibberish_or_normal='"+ gibberish_or_normal +"']").html($("#rm_"+ gibberish_or_normal +" textarea").val());
+            let value_to_send = $("#rm_"+ gibberish_or_normal +" textarea").val().replace(/["]/g,'\\"')
+            ws.send(`{"direction": "`+ gibberish_or_normal +`", "text": "`+ value_to_send + `" }`);
+            console.log("transcript: " + `{"direction": "`+ gibberish_or_normal +`", "text": "`+ value_to_send + `" }`);
             return false;
         }
 

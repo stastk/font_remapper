@@ -21,12 +21,10 @@ class Remapper < Sinatra::Base
     else
       request.websocket do |ws|
         ws.onopen do
-          #ws.send("All will be one")
           settings.sockets << ws
         end
         ws.onmessage do |msg|
           EM.next_tick { settings.sockets.each{|s| s.send(self.remap(msg)) } }
-
         end
         ws.onclose do
           warn("websocket closed")
@@ -72,12 +70,14 @@ class Remapper < Sinatra::Base
     result = self.string_to_hash(t)
     remapped = ""
 
-    if result["direction"] == "normal to gibberish"
+    if result["direction"].to_s == "normal"
       arr_from = ARR_WOTC
       arr_to = ARR_PHIE
+      direction = "normal"
     else
       arr_from = ARR_PHIE
       arr_to = ARR_WOTC
+      direction = "gibberish"
     end
 
     result["text"].chars.each do |char|
@@ -94,7 +94,6 @@ class Remapper < Sinatra::Base
     ARR_WOTC_GSUB_FROM_START.each do |gg|
       remapped.gsub!(/(\s|[,])[#{space_gsubber.call(gg)}]/, " #{gg}")
     end
-
-    "#{remapped.to_s}"
+    [direction.to_s, remapped.to_s].to_s
   end
 end

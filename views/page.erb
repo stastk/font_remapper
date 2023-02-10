@@ -2,7 +2,6 @@
   <head>
     <script type="text/javascript" src="/js/jquery-3.6.3.min.js"></script>
     <script type="text/javascript" src="/js/remapper.js"></script>
-    <script type="text/javascript" src="/js/copy_char.js"></script>
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css"/>
   </head>
   <body class="app">
@@ -21,18 +20,18 @@
       <img src="#">
     </div>
     <section id="remapper_itself">
-      <div id="rm_one" class="rm_field rm_gibberish">
+      <div id="rm_gibberish" class="rm_field rm_gibberish" data-gibberish-or-normal="gibberish">
         <span class="title"></span>
-        <textarea></textarea>
-        <p class="transcription"></p>
+        <textarea data-gibberish-or-normal="gibberish"></textarea>
+        <p class="transcription" data-gibberish-or-normal="normal"></p>
       </div>
       <div id="rm_to" class="rm_switch">
         <button>123</button>
       </div>
-      <div id="rm_another" class="rm_field rm_normal">
+      <div id="rm_normal" class="rm_field rm_normal" data-gibberish-or-normal="normal">
         <span class="title"></span>
-        <textarea></textarea>
-        <p class="transcription"></p>
+        <textarea data-gibberish-or-normal="normal"></textarea>
+        <p class="transcription" data-gibberish-or-normal="normal"></p>
       </div>
     </section>
     <section id="rm_maps">
@@ -43,7 +42,7 @@
       <div class="cols">
         <div class="rm_map rm_gibberish_map">
           <% @gibberish_result.each do |char| %>
-            <div class="char" data-char="<%= char %>">
+            <div class="char" data-char="<%= char %>" data-gibberish-or-normal="gibberish">
               <span><%= char %></span>
               <i><%= char.empty? ? "space" : char %></i>
             </div>
@@ -51,7 +50,7 @@
         </div>
         <div class="rm_map rm_normal_map">
           <% @normal_result.each do |char| %>
-            <div class="char" data-char="<%= char %>">
+            <div class="char" data-char="<%= char %>" data-gibberish-or-normal="normal">
               <span><%= char %></span>
               <i><%= char.empty? ? "space" : char %></i>
             </div>
