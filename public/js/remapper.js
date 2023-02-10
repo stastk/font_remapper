@@ -1,27 +1,23 @@
 $(document).ready(function() {
 
     (function(){
-        var content                  = $("textarea");
-        var rm_gibberish                   = $("#rm_gibberish textarea");
-        var rm_gibberish_transcription     = $("#rm_gibberish .transcription");
-        var rm_gibberish_map               = $(".rm_gibberish_map")
-
-        var rm_normal               = $("#rm_normal textarea");
-        var rm_normal_transcription = $("#rm_normal .transcription");
-        var rm_normal_map           = $(".rm_normal_map")
-
-        var ws       = new WebSocket('ws://' + window.location.host + window.location.pathname);
-        ws.onopen    = function()  { console.log("Socket open") };
-        ws.onclose   = function()  { console.log("Socket closed") }
-        ws.onmessage = function(m) {
+        var content            = $("textarea");
+        var gibberish_textarea = $("#rm_gibberish textarea")
+        var ws                 = new WebSocket('ws://' + window.location.host + window.location.pathname);
+        ws.onopen              = function()  { console.log("Socket open") };
+        ws.onclose             = function()  { console.log("Socket closed") }
+        ws.onmessage           = function(m) {
             console.log(m.data);
-            answer = JSON.parse(m.data);
-            $("#rm_" + answer[0] + " textarea").val(answer[1]);
-            $("#rm_" + answer[0] + " .transcription").val(answer[1]);
+            let answer = JSON.parse(m.data);
+            $("#rm_" + answer[0] + " textarea").val(answer[2]);
+            $("#rm_" + answer[0] + " .transcription").html(answer[2]);
+            $("#rm_" + answer[1] + " .transcription").html($("#rm_" + answer[1] + " textarea").val());
+            console.log("answer[0]:" + answer[0] + "; answer[1]: " + answer[1] + "; answer[2]: " + answer[2])
         };
 
         content.bind('input propertychange', function() {
             console.log("FIRE")
+            gibberish_textarea.val(gibberish_textarea.val().replace( "q",  "" ));
             transcript_it($(this).data("gibberish-or-normal"));
             return false;
         });
@@ -46,11 +42,12 @@ $(document).ready(function() {
         })
 
         function transcript_it(gibberish_or_normal){
-            console.log("gibberish_or_normal " + gibberish_or_normal);
-            $(".transcription[data-gibberish_or_normal='"+ gibberish_or_normal +"']").html($("#rm_"+ gibberish_or_normal +" textarea").val());
-            let value_to_send = $("#rm_"+ gibberish_or_normal +" textarea").val().replace(/["]/g,'\\"')
+            //console.log("gibberish_or_normal " + gibberish_or_normal);
+            let textarea = $("#rm_"+ gibberish_or_normal +" textarea")
+            //$(".transcription[data-gibberish_or_normal='"+ gibberish_or_normal +"']").html(textarea.val());
+            let value_to_send = textarea.val().replace(/["]/g,'\\"')
             ws.send(`{"direction": "`+ gibberish_or_normal +`", "text": "`+ value_to_send + `" }`);
-            console.log("transcript: " + `{"direction": "`+ gibberish_or_normal +`", "text": "`+ value_to_send + `" }`);
+            //console.log("transcript: " + `{"direction": "`+ gibberish_or_normal +`", "text": "`+ value_to_send + `" }`);
             return false;
         }
 
