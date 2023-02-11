@@ -1,12 +1,124 @@
 @font-face {
   font-family: "Phyrexian";
   src: local("Phyrexian"), url("/fonts/Phyrexian-Regular.ttf");
-  font-weight: bold;
+  font-weight: normal;
 }
 @font-face {
   font-family: "Phi_horizontal_gbrsh_2.1";
   src: local("Phi_horizontal_gbrsh_2.1"), url("/fonts/Phi_horizontal_gbrsh_2.1.ttf");
-  font-weight: bold;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Ubuntu'), url("/fonts/Ubuntu-Bold.ttf");
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Ubuntu'), url("/fonts/Ubuntu-BoldItalic.ttf");
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Ubuntu'), url("/fonts/Ubuntu-Italic.ttf");
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Ubuntu'), url("/fonts/Ubuntu-Medium.ttf");
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: italic;
+  font-weight: 500;
+  src: local('Ubuntu'), url("/fonts/Ubuntu-MediumItalic.ttf");
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Ubuntu'), url("/fonts/Ubuntu-Regular.ttf");
+}
+
+:root{
+  --text-basic-color: #222222;
+  --text-secondary-color: #666666;
+  --text-subsecondary-color: #999999;
+  --primary-color: #5200ff;
+  --border-secondary-color: #f2f2f2;
+  --background-secondary-color: #fdfdfd;
+
+  --radius-1: 8px;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+body.app{
+  font-family: Ubuntu, "times new roman", times, roman, serif;
+  display: flex;
+  flex-direction: row;
+  color: var(--text-basic-color);
+  nav{
+    padding-top: 30px;
+    min-width: 200px;
+  }
+  #main_content{
+    padding-top: 30px;
+    max-width: calc(100vw - 400px);
+    header{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 30px;
+      h1{
+        font-size: 24px;
+        width: 100%;
+      }
+      .topsider{
+        margin-top: 6px;
+        display: flex;
+        span{
+          font-size: 14px;
+          white-space: nowrap;
+          a{
+            color: var(--primary-color);
+          }
+        }
+      }
+    }
+    #intro_picture{
+      margin-bottom: 30px;
+      background: url(/pics/phyrexian_font_promo.png);
+      height: 200px;
+      background-position: center center;
+      background-size: 100%;
+      border-radius: var(--radius-1);
+      position: relative;
+      span{
+        display: block;
+        text-align: right;
+        bottom: -130px;
+        height: 100%;
+        position: absolute;
+        right: 15px;
+        white-space: break-spaces;
+        cursor: default;
+        color: rgba(255, 255, 255, .5);
+      }
+    }
+  }
 }
 
 #remapper_itself{
@@ -16,17 +128,46 @@
     display: flex;
     flex: 1;
     flex-direction: column;
+    max-width: calc(50% - 23px);
+    .title{
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
     textarea{
+      display: flex;
       width: 100%;
       min-height: 200px;
+      border-radius: var(--radius-1);
+      padding: 15px;
+      border: 1px solid var(--border-secondary-color);
+      background-color: var(--background-secondary-color);
+      resize: none;
+      &::-webkit-input-placeholder{color: var(--text-subsecondary-color)}
+      &:-moz-placeholder{color: var(--text-subsecondary-color)}
+      &::-moz-placeholder{color: var(--text-subsecondary-color)}
+      &:-ms-input-placeholder{color: var(--text-subsecondary-color)}
+      &::placeholder{color: var(--text-subsecondary-color)}
     }
   }
-  .rm_switch{
+  .rm_arrows{
     display: flex;
-    max-width: 100px;
+    flex-direction: column;
+    height: 100px;
+    margin: 80px 10px;
+    svg{
+      width: 26px;
+      color: var(--text-subsecondary-color);
+      &+svg{
+        transform: rotate(180deg);
+      }
+    }
   }
   .transcription{
     font-size: 24px;
+    white-space: pre-wrap;
+    line-break: anywhere;
+    margin: 20px 0;
   }
   .rm_gibberish{
     .transcription{

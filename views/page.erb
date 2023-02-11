@@ -10,31 +10,40 @@
         123
       </a>
     </nav>
-    <header>
+    <div id="main_content">
+      <header>
       <h1>Phyrexian font remapper</h1>
-      <span>
-        Phyrexian font <a href="#" target="_blank">download ></a>
-      </span>
-    </header>
-    <div class="intro_picture">
-      <img src="#">
-    </div>
-    <section id="remapper_itself">
-      <div id="rm_gibberish" class="rm_field rm_gibberish" data-gibberish-or-normal="gibberish">
-        <span class="title"></span>
-        <textarea data-gibberish-or-normal="gibberish"></textarea>
-        <p class="transcription" data-gibberish-or-normal="normal"></p>
+      <div class="topsider">
+        <span>Phyrexian font <a href="#" target="_blank">download ></a></span>
       </div>
-      <div id="rm_to" class="rm_switch">
-        <button>123</button>
+      </header>
+      <div id="intro_picture">
+        <span>
+          Art by Joseph Meehan
+          ©2018 Wizards of the Coast
+        </span>
       </div>
-      <div id="rm_normal" class="rm_field rm_normal" data-gibberish-or-normal="normal">
-        <span class="title"></span>
-        <textarea data-gibberish-or-normal="normal"></textarea>
-        <p class="transcription" data-gibberish-or-normal="normal"></p>
-      </div>
-    </section>
-    <section id="rm_maps">
+      <section id="remapper_itself">
+        <div id="rm_gibberish" class="rm_field rm_gibberish" data-gibberish-or-normal="gibberish">
+          <span class="title">Gibberish font</span>
+          <textarea data-gibberish-or-normal="gibberish" placeholder="123123123 123 13 12 3 123 123 1"></textarea>
+          <p class="transcription" data-gibberish-or-normal="normal"></p>
+        </div>
+        <div class="rm_arrows">
+          <svg>
+            <use href="#arrow-right" fill="currentColor"/>
+          </svg>
+          <svg>
+            <use href="#arrow-right" fill="currentColor"/>
+          </svg>
+        </div>
+        <div id="rm_normal" class="rm_field rm_normal" data-gibberish-or-normal="normal">
+          <span class="title">Normal font</span>
+          <textarea data-gibberish-or-normal="normal" placeholder="123123123 123 13 12 3 123 123 1"></textarea>
+          <p class="transcription" data-gibberish-or-normal="normal"></p>
+        </div>
+      </section>
+      <section id="rm_maps">
       <div class="cols">
         <div class="rm_map rm_gibberish_map" data-gibberish-or-normal="gibberish">
           <% @gibberish_result.each do |char| %>
@@ -54,6 +63,15 @@
         </div>
       </div>
     </section>
-
+    </div>
   </body>
+
+  <svg style="display: none" version="2.0">
+    <defs>
+      <symbol id="arrow-right" viewbox="0 0 26 18">
+        <path d="M23.5475 8.4008L16.5002 1.35355C16.305 1.15829 16.305 0.841708 16.5002 0.646447C16.6955 0.451184 17.0121 0.451184 17.2074 0.646447L25.1578 8.59685C25.353 8.79211 25.353 9.10869 25.1578 9.30395L17.2074 17.2544C17.0121 17.4496 16.6955 17.4496 16.5002 17.2544C16.305 17.0591 16.305 16.7425 16.5002 16.5472L23.6467 9.4008H1C0.723858 9.4008 0.5 9.17694 0.5 8.9008C0.5 8.62466 0.723858 8.4008 1 8.4008H23.5475Z" fill="currentColor"/>
+      </symbol>
+    </defs>
+  </svg>
+
 </html>
