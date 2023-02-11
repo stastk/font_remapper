@@ -6,6 +6,9 @@ ARR_WOTC = %w(0 1 2 3 4 5 6 7 8 9 − - « Y X ⸘ ‽ ¿ ? ! * + a b d e f g h 
 ARR_WOTC_GSUB_FROM_START = %w(¿ “ ‽ ⸘ ? ! " ^ «)
 ARR_WOTC_GSUB_FROM_END = %w(: - “ « . ^)
 
+PHIE_ALIAS = "gibbersih"
+WOTC_ALIAS = "normal"
+
 class Remapper < Sinatra::Base
 
   set :server, 'thin'
@@ -50,7 +53,9 @@ class Remapper < Sinatra::Base
           settings.sockets << ws
         end
         ws.onmessage do |msg|
-          EM.next_tick { settings.sockets.each{|s| s.send(self.remap(msg)) } }
+          if msg.length > 0
+            EM.next_tick { settings.sockets.each{|s| s.send(self.remap(msg)) } }
+          end
         end
         ws.onclose do
           warn("websocket closed")
@@ -61,16 +66,19 @@ class Remapper < Sinatra::Base
 
   end
 
-  def string_to_hash(string)
-    require 'json'
-    JSON.parse string
+  def answer_splitter(string)
+    answer =  string.match(/\A(normal|gibberish)@(.*)/m).captures.first(2)
+    if answer[1].nil? || answer[1].empty?
+      exit
+    end
+    answer
   end
 
   def remap(t)
-    result = self.string_to_hash(t)
+    result = self.answer_splitter(t)
     remapped = ""
 
-    if result["direction"].to_s == "normal"
+    if result[0].to_s == "normal"
       arr_from = ARR_WOTC
       arr_to = ARR_PHIE
       direction = "gibberish"
@@ -82,16 +90,22 @@ class Remapper < Sinatra::Base
       invert_direction = "gibberish"
     end
 
-    result["text"].chars.each do |char|
-      if direction == "normal"
+    result[1].chars.each do |char|
+      if char == "\n"
+        remapped += "\n"
+      elsif direction == "normal"
         if ARR_PHIE.include? char
           i = arr_from.find_index(char)
           remapped += i.nil? ? char : arr_to[i]
+        elsif char == "\n"
+          remapped += "\n"
         end
       elsif direction == "gibberish"
         if ARR_WOTC.include? char
           i = arr_from.find_index(char)
           remapped += i.nil? ? char : arr_to[i]
+        elsif char == "\n"
+          remapped += "\n"
         end
       end
     end

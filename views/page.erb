@@ -35,16 +35,12 @@
       </div>
     </section>
     <section id="rm_maps">
-      <div id="click_to">
-        <input name="click_to" type="radio" value="copy" checked>
-        <input name="click_to" type="radio" value="typing">
-      </div>
       <div class="cols">
         <div class="rm_map rm_gibberish_map" data-gibberish-or-normal="gibberish">
           <% @gibberish_result.each do |char| %>
             <div class="char" data-char="<%= char %>" data-gibberish-or-normal="gibberish">
               <span><%= char %></span>
-              <i><%= char.empty? ? "space" : char %></i>
+              <i><%= char.empty? || char == " " ? "space" : char %></i>
             </div>
           <% end %>
         </div>
@@ -52,7 +48,7 @@
           <% @normal_result.each do |char| %>
             <div class="char" data-char="<%= char %>" data-gibberish-or-normal="normal">
               <span><%= char %></span>
-              <i><%= char.empty? ? "space" : char %></i>
+              <i><%= char.empty? || char == " " ? "space" : char %></i>
             </div>
           <% end %>
         </div>
