@@ -18,6 +18,7 @@ $(document).ready(function() {
         content.bind('input propertychange', function() {
             console.log("FIRE")
             gibberish_textarea.val(gibberish_textarea.val().replace( "q",  "" ));
+            gibberish_textarea.val(gibberish_textarea.val().replace( "x",  "" ));
             transcript_it($(this).data("gibberish-or-normal"));
             return false;
         });
