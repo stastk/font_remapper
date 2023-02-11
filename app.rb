@@ -54,7 +54,7 @@ class Remapper < Sinatra::Base
         end
         ws.onmessage do |msg|
           if msg.length > 0
-            EM.next_tick { settings.sockets.each{|s| s.send(self.remap(msg)) } }
+            EM.next_tick { ws.send(self.remap(msg))}
           end
         end
         ws.onclose do
