@@ -16,9 +16,10 @@ $(document).ready(function() {
         };
 
         content.bind('input propertychange', function() {
-            console.log("FIRE")
-            gibberish_textarea.val(gibberish_textarea.val().replace( "q",  "" ));
-            gibberish_textarea.val(gibberish_textarea.val().replace( "x",  "" ));
+            let misunderstanding = ["q", "x", ":"]
+            misunderstanding.forEach(function(char) {
+                gibberish_textarea.val(gibberish_textarea.val().replace( char,  "" ));
+            });
             transcript_it($(this).data("gibberish-or-normal"));
             return false;
         });
@@ -36,8 +37,8 @@ $(document).ready(function() {
         function transcript_it(gibberish_or_normal){
             let textarea = $("#rm_"+ gibberish_or_normal +" textarea")
             let value_to_send = textarea.val().replace(/["]/g,'\\"');
-            value_to_send = value_to_send.replace(/[/]/g,'\/');
-            value_to_send = value_to_send.replace(/[\\]/g,'\\');
+            //value_to_send = value_to_send.replace(/[/]/g,'\/');
+            //value_to_send = value_to_send.replace(/[\\]/g,'\\');
             console.log("value_to_send: " + value_to_send)
             ws.send(gibberish_or_normal + "@" + value_to_send);
             return false;
