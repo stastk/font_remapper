@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<head>
+    <script src="jquery-3.6.3.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("h1").on('click', function () {
+                console.log("00000");
+                $.post("/t", {}, function (data) {
+                    console.log("FIRE!");
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<h1>sdadsasdasd asd asd as dasd </h1>
+</body>

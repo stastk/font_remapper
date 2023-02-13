@@ -1,5 +1,10 @@
 $(document).ready(function() {
-
+    $("h1").on('click', function() {
+        console.log("00000");
+        $.post("/t", {}, function(data){
+            console.log("FIRE!");
+        });
+    });
     (function(){
         var content            = $("textarea");
         var gibberish_textarea = $("#rm_gibberish textarea")
@@ -21,6 +26,9 @@ $(document).ready(function() {
                 gibberish_textarea.val(gibberish_textarea.val().replace( char,  "" ));
             });
             transcript_it($(this).data("gibberish-or-normal"));
+            $.post("t", {}, function(data){
+                console.log("FIRE!");
+            });
             return false;
         });
 
